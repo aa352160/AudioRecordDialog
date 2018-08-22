@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="46dp"
+    android:background="#F4F6F7"
+    >
+
+    <ImageView
+        android:id="@+id/iv_action"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginLeft="13dp"
+        android:layout_gravity="center_vertical"
+        android:src="@drawable/audio_player_play"
+        android:scaleType="center"
+        />
+
+    <SeekBar
+        android:id="@+id/seek_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1"
+        android:maxHeight="2dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="30dp"
+        android:progressDrawable="@drawable/layer_list_audio_player_progress"
+        android:thumb="@drawable/audio_player_seek_btn"
+        android:thumbOffset="0dp"
+        android:background="@null"
+        />
+
+    <TextView
+        android:id="@+id/tv_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="13dp"
+        android:layout_gravity="right|center_vertical"
+        android:text="0:00"
+        android:textColor="#666666"
+        android:textSize="10sp" />
+
+</FrameLayout>
