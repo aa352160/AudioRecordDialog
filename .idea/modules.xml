@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/AudioRecordDialog.iml" filepath="$PROJECT_DIR$/.idea/AudioRecordDialog.iml" />
       <module fileurl="file://$PROJECT_DIR$/RecordAudioDialog.iml" filepath="$PROJECT_DIR$/RecordAudioDialog.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

@@ -41,10 +41,12 @@ class RecordDialog: BottomUpDialog(){
     private val STATE_RECORD_PLAY = 3           // 正在播放录音
     private val STATE_RECORD_PAUSE = 4          // 暂停录音
 
+    private val MAX_RECORD_TIME = 180000
+
     private var recorder : CustomRecorder? = null
     private val mediaPlayer by lazy { MediaPlayer() }
     private var recordState = STATE_RECORD_INIT
-    private var recordTime = 0L  //录制时间，单位为s
+    private var recordTime = 0L  //录制时间，单位为ms
 
     //录音计时器
     private var recordTimer: CountDownTimer? = null
@@ -94,8 +96,8 @@ class RecordDialog: BottomUpDialog(){
     }
 
     private fun startRecording() {
-        if (recordTime >= 180){
-            toast("回答不能超过180s")
+        if (recordTime >= MAX_RECORD_TIME){
+            toast("回答不能超过${MAX_RECORD_TIME / 1000}s")
             return
         }
 
@@ -120,7 +122,7 @@ class RecordDialog: BottomUpDialog(){
     }
 
     private fun playRecoding(){
-        if (recordTime >= 180) {toast("录制时间到达上限"); return}
+        if (recordTime >= MAX_RECORD_TIME) {toast("录制时间到达上限"); return}
 
         if (recordState == STATE_RECORD_PAUSE) {
             mediaPlayer.setOnCompletionListener { playRecoding() }
@@ -191,7 +193,7 @@ class RecordDialog: BottomUpDialog(){
                 fl_record_primary.isEnabled = true
                 iv_delete.isEnabled = true
                 iv_play.setImageResource(R.drawable.record_audio_play)
-                tv_time.text = "${recordTime/60}:${formatSecondLongToString(recordTime % 60)}"
+                tv_time.text = "${recordTime/60000}:${formatSecondLongToString((recordTime % 60000) / 1000)}"
                 tv_hint.text = "继续录制"
             }
             STATE_RECORD_PLAY -> {
@@ -210,10 +212,10 @@ class RecordDialog: BottomUpDialog(){
     }
 
     private fun startRecordTimer(){
-        recordTimer = object : CountDownTimer(180000 - (recordTime * 1000),1000){
+        recordTimer = object : CountDownTimer(MAX_RECORD_TIME - recordTime,100){
             override fun onTick(millisUntilFinished: Long) {
-                recordTime++
-                tv_time.text = "${recordTime/60}:${formatSecondLongToString(recordTime % 60)}"
+                recordTime += 100
+                tv_time.text = "${recordTime / 60000}:${formatSecondLongToString((recordTime % 60000) / 1000)}"
             }
             override fun onFinish() {
                 pauseRecording()
@@ -223,12 +225,12 @@ class RecordDialog: BottomUpDialog(){
     }
 
     private fun startPlayRecordTimer(){
-        var countDownTime = recordTime.toFloat() * 1000
-        recordPlayTimer = object : CountDownTimer(countDownTime.toLong(),100){
+        var countDownTime = recordTime.toFloat()
+        recordPlayTimer = object : CountDownTimer(recordTime,100){
             init { progress_view.maxProgress = countDownTime }
 
             override fun onTick(millisUntilFinished: Long) {
-                val timeLeft = millisUntilFinished / 1000 + 1
+                val timeLeft = millisUntilFinished / 1000
                 tv_time.text = "${timeLeft/60}:${formatSecondLongToString(timeLeft % 60)}"
                 progress_view.currentProgress = countDownTime - millisUntilFinished
             }
